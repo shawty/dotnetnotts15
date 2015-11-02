@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Digital Solutions Intranet</title>
+  <link href="~/styles/bootstrap.min.css" rel="stylesheet" />
+  <link href="~/styles/site.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    @Section['bodyContent']
+  </div>
+
+  <footer class="container-fluid">
+    <p class="footerText">My Application &copy;2015 Me Soft</p>
+  </footer>
+
+  <!-- The following script tag is declared here so we can fix it up using the view engine -->
+  <!-- it means in our TS/JS files we can use  base + 'blah/blah/blah' to point to our endpoints -->
+  <script>var base = "@Path['~/']";</script>
+
+  <!-- The ViewNamePresent view bag variable is created in our post action nancy filter -->
+  <!-- it examines our request to see if there is a view name passed from the module -->
+  <!-- if it finds one, it uses that to locate the TS/JS for the view otherwise loads a default -->
+  @If.Context.ViewBag.ViewNamePresent
+  <script src="~/requireconfig"></script>
+  <script data-main="@Context.ViewBag.ViewName" src="~/requirejs"></script>
+  @EndIf
+  @IfNot.Context.ViewBag.ViewNamePresent
+  <script src="~/requireconfig"></script>
+  <script data-main="~/scripts/application/default.js" src="~/requirejs"></script>
+  @EndIf
+
+</body>
+
+</html>
